@@ -5,6 +5,7 @@
 const express = require("express");
 const app = express();
 const { findMode, findMean, findMedian  } = require("./stats.js")
+const { convertStrNums } = require('./utils.js')
 
 // useful error class to throw
 const { NotFoundError } = require("./expressError");
@@ -17,14 +18,14 @@ app.use(express.json());
 
 /** Finds mean of nums in qs: returns {operation: "mean", result } */
 
-app.get("/mean", function(req, res){
+app.get("/mean?", function(req, res){
 
+  const numbersAsStrings = req.query().split(",")
+  const numbers = convertStrNums(numbersAsStrings);
 
+  const mean = findMean(numbers);
 
-
-  // return res.json({operation: "mean", ${result} })
-
-
+  return res.json({"operation": "mean", "value": mean });
 })
 
 
