@@ -13,19 +13,23 @@ const { NotFoundError } = require("./expressError");
 const MISSING = "Expected key `nums` with comma-separated list of numbers.";
 
 // process JSON body => req.body
-app.use(express.json());
+// app.use(express.json());
 
 
 /** Finds mean of nums in qs: returns {operation: "mean", result } */
+app.get("/", function(req,res){
+  return res.send("we are here!")
+})
 
-app.get("/mean?", function(req, res){
+app.get("/mean", function(req, res){
+  console.log("We got to mean!")
 
-  const numbersAsStrings = req.query().split(",")
+  const numbersAsStrings = req.query.nums.split(",")
   const numbers = convertStrNums(numbersAsStrings);
 
   const mean = findMean(numbers);
 
-  return res.json({"operation": "mean", "value": mean });
+  return res.json({operation: "mean", value: mean });
 })
 
 
